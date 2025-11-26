@@ -32,6 +32,35 @@ If you have a feature request, please create an issue with the following informa
 - Any relevant examples or use cases.
 - Any other relevant information.
 
+## Publishing Releases (for Maintainers)
+
+This project uses npm provenance with OIDC for secure package publishing. To set up publishing:
+
+### Prerequisites
+
+1. **Enable OIDC on npm**:
+   - Go to [npmjs.com](https://www.npmjs.com) and sign in
+   - Navigate to your package settings
+   - Go to "Settings" → "Publishing access"
+   - Under "Configure link", click "Link a repository" and follow the prompts
+   - Select this GitHub repository
+
+2. **GitHub Actions OIDC Configuration**:
+   - OIDC is already configured in the `publish.yaml` workflow with `id-token: write` permission
+   - The workflow uses `--provenance` flag to generate SLSA provenance
+
+3. **Create an NPM_TOKEN secret** (as a fallback):
+   - Generate an access token on npm with "Automation" type
+   - Add it as a secret named `NPM_TOKEN` in the GitHub repository settings
+
+### Publishing Process
+
+1. Create a new release on GitHub
+2. The publish workflow will automatically:
+   - Build the package
+   - Publish to npm with provenance attestation
+   - Sign the package using GitHub's OIDC
+
 ## Code of Conduct
 
 Please note that this project is governed by a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to adhere to it.

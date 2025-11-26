@@ -274,6 +274,33 @@ export async function down(connection: Connection) {
 
 We welcome contributions from the community. Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
 
+## Releasing (for Maintainers)
+
+This project uses npm provenance with OIDC for secure package publishing. Follow these steps to configure the release workflow:
+
+### Create a GitHub Environment
+
+1. Go to repository **Settings** → **Environments** → **New environment**
+2. Create an environment named `npm`
+3. Configure the environment:
+   - Add **Required reviewers** (optional but recommended for production)
+   - Under **Environment secrets**, add `NPM_TOKEN`:
+     - Go to [npmjs.com](https://www.npmjs.com) → **Access Tokens** → **Generate New Token**
+     - Select **Granular Access Token** with publish permissions
+     - Copy and save it as the `NPM_TOKEN` secret
+
+### Enable OIDC on npm
+
+1. Go to [npmjs.com](https://www.npmjs.com) and navigate to your package settings
+2. Go to **Settings** → **Publishing access**
+3. Under **Configure link**, click **Link a repository** and select this GitHub repository
+
+### Why Use an Environment?
+
+- **Security**: Secrets stored in environments can have additional protection with required reviewers
+- **Audit trail**: Environment deployments are tracked separately in GitHub
+- **Access control**: Only workflows using the specified environment can access its secrets
+
 ## Code of Conduct
 
 Please read our [Code of Conduct](CODE_OF_CONDUCT.md) to understand the expectations we have for everyone who participates in our community.
